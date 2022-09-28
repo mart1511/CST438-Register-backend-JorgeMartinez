@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -67,6 +69,15 @@ public class StudentController {
 		else {
 			throw  new ResponseStatusException( HttpStatus.BAD_REQUEST, "Student already exists in database.");
 		}
+	}
+	
+	@PutMapping("/student/{id}")
+	void updateStatus( @PathVariable("id") int sId, @RequestParam("status") int status) {
+		
+		Student s = studentRepository.findById(sId).get();
+		s.setStatusCode(status);
+		studentRepository.save(s);
+		return;
 	}
 	
 	
